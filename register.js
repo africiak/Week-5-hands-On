@@ -1,33 +1,32 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('form')
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form");
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const authMsg = document.getElementById('auth-msg');
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-        try{
-            const response = await fetch('http://localhost:3000/api/register', {
-                method: 'POST',
-                headers:  {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, username, password })
-            });
+    const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const authMsg = document.getElementById("auth-msg");
 
-            const data = await response.json();
+    try {
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, username, password }),
+      });
 
-            if(!response.ok) {
-                authMsg.textContent = data
-            } else {
-                authMsg.textContent = data
-            }
-        } catch (err) {
-            authMsg.textContent = err
-        }
-    })
+      const data = await response.json();
 
-})
+      if (!response.ok) {
+        authMsg.textContent = data.message || "An error occured";
+      } else {
+        authMsg.textContent = data.message || "Registration successful!";
+      }
+    } catch (err) {
+      authMsg.textContent = "An error occurred" + err.message;
+    }
+  });
+});

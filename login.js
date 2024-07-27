@@ -1,31 +1,31 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('form')
-    
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const authMsg = document.getElementById('auth-msg');
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("form");
 
-        try{
-            const response = await fetch('http://localhost:3000/api/login', {
-                method: 'POST',
-                headers:  {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            const data = await response.json()
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const authMsg = document.getElementById("auth-msg");
 
-            if(!response.ok) {
-                authMsg.textContent = data
-            } else {
-                authMsg.textContent = data
-            }
-        } catch (err) {
-            authMsg.textContent = err
-        }
-    })
-})
+    try {
+      const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        authMsg.textContent = data.message || "An error occured";
+      } else {
+        authMsg.textContent = data.message || "Login successful!";
+      }
+    } catch (err) {
+      authMsg.textContent = "An error occurred" + err.message;
+    }
+  });
+});
